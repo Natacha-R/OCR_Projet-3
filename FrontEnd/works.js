@@ -8,6 +8,27 @@ const request = async () => {
       works = data;
     })
     .catch(function (error) {
-      alert("HTTP Error " + error.status);
+      alert("HTTP Error" + error.status);
     });
 };
+
+// Ajout des travaux "Mes Projets"
+const worksList = async () => {
+  await request();
+
+  const section = document.querySelector(".gallery");
+
+  for (const work of works) {
+    const myFigure = document.createElement("figure");
+    const myImg = document.createElement("img");
+    const myFigcaption = document.createElement("figcaption");
+
+    myImg.src = work.imageUrl;
+    myFigcaption.textContent = work.title;
+    myFigure.appendChild(myImg);
+    myFigure.appendChild(myFigcaption);
+    section.appendChild(myFigure);
+  }
+};
+
+worksList();
