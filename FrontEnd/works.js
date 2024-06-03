@@ -1,7 +1,7 @@
 let works = [];
 
 // Récupération des données avec Fetch
-const request = async () => {
+const requestWorks = async () => {
   await fetch("http://localhost:5678/api/works")
     .then((response) => response.json())
     .then((data) => {
@@ -14,7 +14,7 @@ const request = async () => {
 
 // Ajout des travaux "Mes Projets"
 const worksList = async () => {
-  await request();
+  await requestWorks();
 
   const section = document.querySelector(".gallery");
 
