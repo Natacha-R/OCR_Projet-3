@@ -1,4 +1,5 @@
 let categories = [];
+let works = [];
 
 // Récupération des données categories avec Fetch
 const request = async () => {
@@ -11,8 +12,6 @@ const request = async () => {
       alert("HTTP Error" + error.status);
     });
 };
-
-let works = [];
 
 // Récupération des données works avec Fetch
 const requestWorks = async () => {
@@ -35,23 +34,52 @@ const categoriesList = async () => {
 
   for (const category of categories) {
     const li = document.createElement("li");
-
+    li.setAttribute("id", category.id);
     li.textContent = category.name;
     filtres.appendChild(li);
+
+    li.addEventListener("click", () => {
+      if (li.id === "0") {
+        filterWorks(works);
+      } else {
+        const filteredWorks = works.filter(
+          (work) => work.category.id === parseInt(li.id)
+        );
+        filterWorks(filteredWorks);
+      }
+    });
   }
 };
 
 categoriesList();
 
+// fonction
+function filterWorks(works) {
+  const element = document.querySelector(".gallery");
+
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+
+  for (const work of works) {
+    const myFigure = document.createElement("figure");
+    const myImg = document.createElement("img");
+    const myFigcaption = document.createElement("figcaption");
+
+    myImg.src = work.imageUrl;
+    myFigcaption.textContent = work.title;
+    myFigure.appendChild(myImg);
+    myFigure.appendChild(myFigcaption);
+    element.appendChild(myFigure);
+  }
+}
+
 // Ajout des travaux "Mes Projets"
 const worksList = async () => {
   await requestWorks();
 
-  const appt = works.filter((work) => work.category.name === "Objets");
-  addWorks(appt);
-};
-function addWorks(works) {
   const section = document.querySelector(".gallery");
+
   for (const work of works) {
     const myFigure = document.createElement("figure");
     const myImg = document.createElement("img");
@@ -63,5 +91,5 @@ function addWorks(works) {
     myFigure.appendChild(myFigcaption);
     section.appendChild(myFigure);
   }
-}
+};
 worksList();
