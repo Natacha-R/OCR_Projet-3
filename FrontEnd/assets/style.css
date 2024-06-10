@@ -133,12 +133,14 @@ body {
   margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
+  background-color: #fffef8;
 }
 header {
   display: flex;
   justify-content: space-between;
   margin: 50px 0;
 }
+
 section {
   margin: 50px 0;
 }
@@ -254,7 +256,7 @@ li:hover {
   flex-direction: column;
 }
 
-#contact input {
+form input {
   height: 50px;
   font-size: 1.2em;
   border: none;
@@ -283,4 +285,31 @@ footer nav ul {
   display: flex;
   justify-content: flex-end;
   margin: 2em;
+}
+
+/********************************* Log IN Page ************************************/
+
+.titleLog {
+  text-align: center;
+  margin-top: 5em;
+  margin-bottom: 1em;
+}
+
+#formLog {
+  width: 35%;
+  margin: auto;
+  text-align: left;
+  margin-top: 30px;
+  margin-bottom: 25em;
+  display: flex;
+  flex-direction: column;
+}
+
+#formLog label {
+  margin: 2em 0 1em 0;
+}
+
+#formLog a {
+  text-align: center;
+  color: #3d3d3d;
 }

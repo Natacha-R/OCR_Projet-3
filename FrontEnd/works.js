@@ -53,7 +53,7 @@ const categoriesList = async () => {
 
 categoriesList();
 
-// fonction
+// fonction pour les filtres
 function filterWorks(works) {
   const element = document.querySelector(".gallery");
 
