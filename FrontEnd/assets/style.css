@@ -177,6 +177,16 @@ nav li {
   cursor: default;
 }
 
+.logac a {
+  cursor: default;
+  color: black;
+  text-decoration: none;
+}
+
+.logac a:hover {
+  color: #b1663c;
+}
+
 li:hover {
   color: #b1663c;
 }
@@ -313,4 +323,9 @@ footer nav ul {
 #formLog a {
   text-align: center;
   color: #3d3d3d;
+}
+
+nav .log {
+  color: black;
+  font-weight: 900;
 }
