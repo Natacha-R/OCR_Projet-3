@@ -25,56 +25,35 @@ const requestWorks = async () => {
     });
 };
 
-// Ajout des filtres
+// Création des filtres (navbar)
 const categoriesList = async () => {
   await request();
 
-  const filtres = document.querySelector(".navbar");
-  categories.unshift({ id: 0, name: "Tous" });
+  const filtres = document.querySelector(".navbar"); //création const filtres dans navbar (html)
+  categories.unshift({ id: 0, name: "Tous" }); //création filtre "Tous"
 
   for (const category of categories) {
-    const li = document.createElement("li");
-    li.setAttribute("id", category.id);
-    li.textContent = category.name;
-    filtres.appendChild(li);
+    const li = document.createElement("li"); //création li
+    li.setAttribute("id", category.id); //li = id de category (works)
+    li.textContent = category.name; //li = name de category (works)
+    filtres.appendChild(li); //li enfant de filtres
 
+    // écoute au click des filtres
     li.addEventListener("click", () => {
       if (li.id === "0") {
-        filterWorks(works);
+        filterWorks(works); //si id de li = 0 ("tous") alors mettre tous les travaux
       } else {
         const filteredWorks = works.filter(
           (work) => work.category.id === parseInt(li.id)
-        );
+        ); //sinon filtrer les travaux par category avec id
         filterWorks(filteredWorks);
       }
     });
   }
 };
-
 categoriesList();
 
-// fonction pour les filtres
-function filterWorks(works) {
-  const element = document.querySelector(".gallery");
-
-  while (element.firstChild) {
-    element.removeChild(element.firstChild);
-  }
-
-  for (const work of works) {
-    const myFigure = document.createElement("figure");
-    const myImg = document.createElement("img");
-    const myFigcaption = document.createElement("figcaption");
-
-    myImg.src = work.imageUrl;
-    myFigcaption.textContent = work.title;
-    myFigure.appendChild(myImg);
-    myFigure.appendChild(myFigcaption);
-    element.appendChild(myFigure);
-  }
-}
-
-// Ajout des travaux "Mes Projets"
+// Ajout des travaux "Mes Projets" (gallery)
 const worksList = async () => {
   await requestWorks();
 
@@ -87,9 +66,30 @@ const worksList = async () => {
 
     myImg.src = work.imageUrl;
     myFigcaption.textContent = work.title;
+    section.appendChild(myFigure);
     myFigure.appendChild(myImg);
     myFigure.appendChild(myFigcaption);
-    section.appendChild(myFigure);
   }
 };
 worksList();
+
+// fonction pour filtrer par travaux
+function filterWorks(works) {
+  const element = document.querySelector(".gallery");
+
+  while (element.firstChild) {
+    element.removeChild(element.firstChild); //supprime tous les enfants de .gallery
+  }
+
+  for (const work of works) {
+    const myFigure = document.createElement("figure");
+    const myImg = document.createElement("img");
+    const myFigcaption = document.createElement("figcaption");
+
+    myImg.src = work.imageUrl;
+    myFigcaption.textContent = work.title;
+    element.appendChild(myFigure);
+    myFigure.appendChild(myImg);
+    myFigure.appendChild(myFigcaption);
+  }
+}
