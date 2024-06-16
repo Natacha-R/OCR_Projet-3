@@ -105,9 +105,7 @@ nav,
 section {
   display: block;
 }
-body {
-  line-height: 1;
-}
+
 ol,
 ul {
   list-style: none;
@@ -299,6 +297,11 @@ footer nav ul {
 }
 
 /********************************* Log IN Page ************************************/
+.h1log a {
+  color: #b1663c;
+  cursor: default;
+  text-decoration: none;
+}
 
 .titleLog {
   text-align: center;
