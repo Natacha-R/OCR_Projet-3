@@ -29,13 +29,13 @@ const requestWorks = async () => {
 const categoriesList = async () => {
   await request();
 
-  const filtres = document.querySelector(".navbar"); //création const filtres dans navbar (html)
+  const filtres = document.querySelector(".navbar"); //récupération barre de filtres (html)
   categories.unshift({ id: 0, name: "Tous" }); //création filtre "Tous"
 
   for (const category of categories) {
     const li = document.createElement("li"); //création li
     li.setAttribute("id", category.id); //li = id de category (works)
-    li.textContent = category.name; //li = name de category (works)
+    li.textContent = category.name; //texte du li = name de category (works)
     filtres.appendChild(li); //li enfant de filtres
 
     // écoute au click des filtres
@@ -44,7 +44,7 @@ const categoriesList = async () => {
         filterWorks(works); //si id de li = 0 ("tous") alors mettre tous les travaux
       } else {
         const filteredWorks = works.filter(
-          (work) => work.category.id === parseInt(li.id)
+          (work) => work.category.id === parseInt(li.id) // (convertir une chaine de caractères en un nombre entier)
         ); //sinon filtrer les travaux par category avec id
         filterWorks(filteredWorks);
       }
