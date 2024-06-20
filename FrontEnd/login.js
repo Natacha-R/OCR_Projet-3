@@ -33,15 +33,15 @@ const request = async (bodyString) => {
     });
 };
 
-function validateEmail(email) {
-  const emailRegex = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/;
-  return emailRegex.test(email);
-}
-
 // Tentative de connexion utilisateur
 let inputEmail = document.querySelector("#email");
 let inputPassword = document.querySelector("#passWord");
 let BtnCo = document.querySelector("#btnCo");
+
+function validateEmail(email) {
+  const emailRegex = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/; // Fonction de validation Email
+  return emailRegex.test(email);
+}
 
 BtnCo.addEventListener("click", (event) => {
   event.preventDefault(); // Bloquer le comportement par defaut du navigateur

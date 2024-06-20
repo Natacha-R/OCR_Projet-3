@@ -1,5 +1,6 @@
 let categories = [];
 let works = [];
+console.log(sessionStorage.getItem("token")); // verification token lors de la connexion
 
 // Récupération des données categories avec Fetch
 const request = async () => {
@@ -27,31 +28,42 @@ const requestWorks = async () => {
 
 // Création des filtres (navbar)
 const categoriesList = async () => {
-  await request();
+  if (sessionStorage.getItem("token") == null) {
+    //Si pas d'utilisateurs connectés alors appliquer le code suivant (affichage barre de filtres)
+    await request();
 
-  const filtres = document.querySelector(".navbar"); //récupération barre de filtres (html)
-  categories.unshift({ id: 0, name: "Tous" }); //création filtre "Tous"
+    const filtres = document.querySelector(".navbar"); //récupération barre de filtres (html)
+    categories.unshift({ id: 0, name: "Tous" }); //création filtre "Tous"
 
-  for (const category of categories) {
-    const li = document.createElement("li"); //création li
-    li.setAttribute("id", category.id); //li = id de category (works)
-    li.textContent = category.name; //texte du li = name de category (works)
-    filtres.appendChild(li); //li enfant de filtres
+    for (const category of categories) {
+      const li = document.createElement("li"); //création li
+      li.setAttribute("id", category.id); //li = id de category (works)
+      li.textContent = category.name; //texte du li = name de category (works)
+      filtres.appendChild(li); //li enfant de filtres
 
-    // écoute au click des filtres
-    li.addEventListener("click", () => {
-      if (li.id === "0") {
-        filterWorks(works); //si id de li = 0 ("tous") alors mettre tous les travaux
-      } else {
-        const filteredWorks = works.filter(
-          (work) => work.category.id === parseInt(li.id) // (convertir une chaine de caractères en un nombre entier)
-        ); //sinon filtrer les travaux par category avec id
-        filterWorks(filteredWorks);
-      }
-    });
+      // écoute au click des filtres
+      li.addEventListener("click", () => {
+        if (li.id === "0") {
+          filterWorks(works); //si id de li = 0 ("tous") alors mettre tous les travaux
+        } else {
+          const filteredWorks = works.filter(
+            (work) => work.category.id === parseInt(li.id) // (convertir une chaine de caractères en un nombre entier)
+          ); //sinon filtrer les travaux par category avec id
+          filterWorks(filteredWorks);
+        }
+      });
+    }
   }
 };
+
 categoriesList();
+
+//creation de "modifier"
+const modify = document.createElement("p");
+modify.textContent = "modifier";
+const portfolio = document.getElementById("modify");
+portfolio.appendChild(modify);
+console.log(portfolio);
 
 // Ajout des travaux "Mes Projets" (gallery)
 const worksList = async () => {
