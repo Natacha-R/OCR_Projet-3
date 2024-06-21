@@ -334,5 +334,45 @@ nav .log {
 }
 
 /********************************* Mode edition ************************************/
-.modify {
+#titleBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+}
+
+#modify {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  line-height: 36px;
+  text-align: center;
+  position: relative;
+  left: 62px;
+  width: 85px;
+  height: 36px;
+  text-decoration: none;
+  cursor: default;
+  color: black;
+}
+
+#modify i {
+  line-height: 36px;
+}
+
+#h2project {
+  position: relative;
+  width: 200px;
+  left: 42px;
+}
+
+#modify p {
+  font: inherit;
+  font-size: 14px;
+  background: none;
+  border: none;
+  cursor: default;
+  height: 36px;
+  width: 64px;
 }

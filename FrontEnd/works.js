@@ -53,17 +53,22 @@ const categoriesList = async () => {
         }
       });
     }
+  } else {
+    //creation de "modifier"
+    const p = document.createElement("p");
+    p.textContent = "modifier";
+    const i = document.createElement("i");
+    i.classList.add("fa-regular", "fa-pen-to-square");
+    const modify = document.getElementById("modify");
+    modify.appendChild(i);
+    modify.appendChild(p);
+
+    // changement login en logout
+    const logout = (document.querySelector(".logac").innerText = "logout");
   }
 };
 
 categoriesList();
-
-//creation de "modifier"
-const modify = document.createElement("p");
-modify.textContent = "modifier";
-const portfolio = document.getElementById("modify");
-portfolio.appendChild(modify);
-console.log(portfolio);
 
 // Ajout des travaux "Mes Projets" (gallery)
 const worksList = async () => {
