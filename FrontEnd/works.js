@@ -26,6 +26,23 @@ const requestWorks = async () => {
     });
 };
 
+// Suppression d'un projet avec fetch
+const requestDeleteWorks = async (id) => {
+  //id du projet à supprimer
+  await fetch("http://localhost:5678/api/works/" + id, {
+    method: "DELETE",
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"), //Permet de s'assurer que l'utilisateur connecté peut supprimer un projet
+    },
+  })
+    .then((response) => {
+      //Si succès on rafraichit la liste des projets dans la modale et sur l'accueil
+      worksList();
+    })
+    .then((data) => data)
+    .catch((err) => alert(err));
+};
+
 // Création des filtres (navbar)
 const categoriesList = async () => {
   if (sessionStorage.getItem("token") == null) {
@@ -63,26 +80,22 @@ const categoriesList = async () => {
     modify.appendChild(i);
     modify.appendChild(p);
 
-    // Get the modal
+    // Modale
     var modal = document.getElementById("myModal");
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName("close")[0]; //élément span pour fermer la modale
 
-    // When the user clicks on the button, open the modal
     modify.addEventListener("click", (event) => {
-      event.preventDefault();
+      event.preventDefault(); // ouvrir la modale lors du clic sur modifier
       modal.style.display = "flex";
     });
 
-    // When the user clicks on <span> (x), close the modal
     span.addEventListener("click", (event) => {
-      modal.style.display = "none";
+      modal.style.display = "none"; // fermer la modale lors du clic sur span close
     });
 
-    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal) {
-        modal.style.display = "none";
+        modal.style.display = "none"; // fermer la modale lors d'un clic en dehors de celle-ci
       }
     };
 
@@ -104,7 +117,14 @@ const worksList = async () => {
   await requestWorks();
 
   const section = document.querySelector(".gallery");
+  while (section.firstChild) {
+    section.removeChild(section.firstChild); //supprime tous les enfants de .gallery pour raffraichir la liste
+  }
+
   const grid = document.getElementById("grid");
+  while (grid.firstChild) {
+    grid.removeChild(grid.firstChild); //supprime tous les enfants de .grid pour raffraichir la liste
+  }
 
   for (const work of works) {
     const myFigure = document.createElement("figure");
@@ -117,22 +137,39 @@ const worksList = async () => {
     myFigure.appendChild(myImg);
     myFigure.appendChild(myFigcaption);
 
-    const galleryImg = document.createElement("img");
-    galleryImg.src = work.imageUrl;
-    grid.appendChild(galleryImg);
+    //Création des miniatures dans la modale (div > img / button > i)
+    const gridDiv = document.createElement("div");
+    gridDiv.classList.add("gridDiv");
+    const gridImg = document.createElement("img");
+    gridImg.src = work.imageUrl;
+    gridDiv.appendChild(gridImg);
+    const gridButton = document.createElement("button");
+    //On récupère plus tard l'id du projet à supprimer via le bouton
+    gridButton.id = work.id;
+    gridDiv.appendChild(gridButton);
+    const gridI = document.createElement("i");
+    gridI.classList.add("fa-solid", "fa-trash-can", "fa-sm", "deleteImage");
+    gridButton.appendChild(gridI);
+    grid.appendChild(gridDiv);
+
+    //Appel au fetch pour supprimer le projet correspondant
+    gridButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      //On recupère l'id du projet grâce à l'id du bouton
+      requestDeleteWorks(gridButton.id);
+    });
   }
   /*
   Pour avoir le nombre de lignes requises : nombre de projets (works) / 5 (nombre projet par ligne)
-  On multiplie par 100 car la hauteur de nos images est de 100
+  On multiplie par 130 car la hauteur de nos images est de 130
   On rajoute 55 car c'est l'espacement requis par la maquette
   On transforme le résultat en chaine de caractère car style.height attend ce type
   On ajoute px car on attend que notre grille ait une hauteur en pixels
   */
-  const height = Math.ceil(works.length / 5) * 100 + 55;
+  const height = Math.ceil(works.length / 5) * 130 + 55;
   grid.style.height = height.toString() + "px";
-  if (height > 355) {
-    //Si hauteur images > 355 alors on scroll
-    grid.style.overflow = "auto";
+  if (height > 445) {
+    grid.style.overflow = "auto"; //Si hauteur images > 445 alors on scroll
   }
 };
 worksList();

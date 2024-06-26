@@ -333,7 +333,7 @@ nav .log {
   font-weight: 900;
 }
 
-/********************************* Mode edition ************************************/
+/********************************* edition Mode ************************************/
 #titleBar {
   display: flex;
   flex-direction: row;
@@ -392,18 +392,16 @@ nav .log {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Modal Content/Box */
 .modal-content {
   background-color: #ffffff;
   margin: 15% auto;
   padding: 26px;
   border: 1px solid transparent;
   border-radius: 10px;
-  width: 40%;
+  width: 35%;
   height: auto;
 }
 
-/* The Close Button */
 .close {
   color: black;
   float: right;
@@ -432,21 +430,47 @@ nav .log {
 #grid {
   width: 80%;
   margin: 30px auto;
-  max-height: 355px;
+  max-height: 445px;
 }
 
-#grid img {
+.gridDiv {
   float: left;
+  position: relative;
   width: 18%;
-  height: 95px;
+  height: 130px;
   margin: 3% 1%;
+}
+
+.gridDiv img {
+  height: 100%;
+  width: 100%;
+}
+
+.gridDiv button {
+  z-index: 10;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background-color: black;
+}
+
+.deleteImage {
+  position: absolute;
+  left: 4.5px;
+  margin: auto;
+  object-fit: cover;
+  color: white;
 }
 
 #divider {
   width: 80%;
   height: 1px;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 100px;
   background-color: #b3b3b3;
 }
 
