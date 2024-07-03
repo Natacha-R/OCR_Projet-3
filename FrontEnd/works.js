@@ -82,7 +82,10 @@ const categoriesList = async () => {
 
     // Modale
     var modal = document.getElementById("myModal");
+    var modalAddition = document.getElementById("modalAddition");
+    var backArrow = document.getElementById("backArrow");
     var span = document.getElementsByClassName("close")[0]; //élément span pour fermer la modale
+    var addButton = document.getElementById("addButton");
 
     modify.addEventListener("click", (event) => {
       event.preventDefault(); // ouvrir la modale lors du clic sur modifier
@@ -98,6 +101,16 @@ const categoriesList = async () => {
         modal.style.display = "none"; // fermer la modale lors d'un clic en dehors de celle-ci
       }
     };
+
+    addButton.addEventListener("click", (event) => {
+      modal.style.display = "none";
+      modalAddition.style.display = "flex";
+    });
+
+    backArrow.addEventListener("click", (event) => {
+      modal.style.display = "flex";
+      modalAddition.style.display = "none";
+    });
 
     // changement login en logout
     document.querySelector(".logac").innerText = "logout";
