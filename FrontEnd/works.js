@@ -84,7 +84,8 @@ const categoriesList = async () => {
     var modal = document.getElementById("myModal");
     var modalAddition = document.getElementById("modalAddition");
     var backArrow = document.getElementById("backArrow");
-    var span = document.getElementsByClassName("close")[0]; //élément span pour fermer la modale
+    var span = document.getElementsByClassName("close")[0]; //élément span pour fermer la modale (galerie photo)
+    var closeAdditionButton = document.getElementById("closeAddition"); //élément span pour fermer la modale (ajout photo)
     var addButton = document.getElementById("addButton");
 
     modify.addEventListener("click", (event) => {
@@ -93,16 +94,23 @@ const categoriesList = async () => {
     });
 
     span.addEventListener("click", (event) => {
-      modal.style.display = "none"; // fermer la modale lors du clic sur span close
+      modal.style.display = "none"; // fermer la modale lors du clic sur span close (galerie photo)
+    });
+
+    closeAdditionButton.addEventListener("click", (event) => {
+      modalAddition.style.display = "none"; // fermer la modale lors du clic sur span close (ajout photo)
     });
 
     window.onclick = function (event) {
       if (event.target == modal) {
         modal.style.display = "none"; // fermer la modale lors d'un clic en dehors de celle-ci
+      } else if (event.target == modalAddition) {
+        modalAddition.style.display = "none"; // fermer la modale lors d'un clic en dehors de celle-ci
       }
     };
 
     addButton.addEventListener("click", (event) => {
+      //ouvrir 'ajout photo' avec clic sur button
       modal.style.display = "none";
       modalAddition.style.display = "flex";
     });
@@ -207,3 +215,129 @@ function filterWorks(works) {
     myFigure.appendChild(myFigcaption);
   }
 }
+
+//** Ajout projet
+//Création "Catégorie"
+const addSelect = async () => {
+  await request();
+
+  const select = document.getElementById("category");
+  const option = document.createElement("option");
+  option.textContent = "";
+  select.appendChild(option);
+
+  for (const category of categories) {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.textContent = category.name;
+    select.appendChild(option);
+  }
+};
+
+addSelect();
+
+//Constante de lecture de fichier (image)
+const reader = new FileReader();
+//Récupération des éléments HTML
+const fileInput = document.getElementById("image");
+const img = document.getElementById("preview"); // élément html qui affiche le contenu (image) de manière lisible
+const imgSpan = document.getElementById("imgSpan");
+const fileLabel = document.getElementById("fileLabel");
+const imgP = document.getElementById("imgP");
+let file;
+const title = document.getElementById("title");
+const category = document.getElementById("category");
+const validateButton = document.getElementById("validateButton");
+
+const requestAddWorks = async () => {
+  //Créer le body de la requête à partir du formulaire html (name formulaire = nom paramètre API)
+  const formulaire = document.getElementById("formAddPhoto");
+  const formData = new FormData(formulaire);
+
+  await fetch("http://localhost:5678/api/works/", {
+    method: "POST",
+    body: formData,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"), //Permet de s'assurer que l'utilisateur connecté peut supprimer un projet
+    },
+  })
+    .then((response) => {
+      //Si succès on rafraichit la liste des projets dans la modale et sur l'accueil
+      worksList();
+      var modalAddition = document.getElementById("modalAddition");
+      modalAddition.style.display = "none";
+
+      formulaire.reset();
+      validateButton.style.backgroundColor = "#a7a7a7";
+      fileInput.style.display = "none";
+      imgSpan.style.display = "block";
+      fileLabel.style.display = "block";
+      imgP.style.display = "block";
+      img.style.display = "none";
+      img.src = "";
+    })
+    .then((data) => data)
+    .catch((err) => alert(err));
+};
+
+//écouteur d'événement 'change' sur fileInput (Evenement de type change = changement valeur)
+fileInput.addEventListener("change", (event) => {
+  const titleText = title.value;
+  const categoryText = category.options[category.selectedIndex].text;
+
+  file = event.target.files[0]; //On récupère le premier fichier sélectionné
+  reader.readAsDataURL(file); //On demande au reader de lire le fichier à l'emplacement file
+
+  //Si les champs de formulaire sont valides alors on change la couleur du bouton valider
+  if (file != null && titleText.length > 0 && categoryText.length > 0) {
+    validateButton.style.backgroundColor = "#1d6154";
+  } else {
+    validateButton.style.backgroundColor = "#a7a7a7";
+  }
+});
+
+//Une fois que la lecture de l'image est faite on l'affiche (Affiche le contenu de l'élément)
+reader.onload = (event) => {
+  fileInput.style.display = "none"; //(cache le reste)
+  imgSpan.style.display = "none";
+  fileLabel.style.display = "none";
+  imgP.style.display = "none";
+  img.style.display = "block";
+  img.src = event.target.result; //Affichage de l'image
+};
+
+validateButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  const titleText = title.value;
+  const categoryText = category.options[category.selectedIndex].text;
+
+  if (file != null && titleText.length > 0 && categoryText.length > 0) {
+    requestAddWorks();
+  }
+});
+
+//Evenement de type change = changement valeur
+title.addEventListener("change", (event) => {
+  const titleText = title.value;
+  const categoryText = category.options[category.selectedIndex].text;
+
+  //Si les champs de formulaire sont valides alors on change la couleur du bouton valider
+  if (file != null && titleText.length > 0 && categoryText.length > 0) {
+    validateButton.style.backgroundColor = "#1d6154";
+  } else {
+    validateButton.style.backgroundColor = "#a7a7a7";
+  }
+});
+
+//Evenement de type change = changement valeur
+category.addEventListener("change", (event) => {
+  const titleText = title.value;
+  const categoryText = category.options[category.selectedIndex].text;
+
+  //Si les champs de formulaire sont valides alors on change la couleur du bouton valider
+  if (file != null && titleText.length > 0 && categoryText.length > 0) {
+    validateButton.style.backgroundColor = "#1d6154";
+  } else {
+    validateButton.style.backgroundColor = "#a7a7a7";
+  }
+});
