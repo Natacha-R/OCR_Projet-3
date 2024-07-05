@@ -71,6 +71,12 @@ const categoriesList = async () => {
       });
     }
   } else {
+    //Barre mode édition visible si utilisateur connecté
+    const editionMode = document.querySelector(".edition");
+    editionMode.style.display = "block";
+    const header = document.querySelector(".header");
+    header.style.marginTop = "97px";
+
     //creation de "modifier"
     const p = document.createElement("p");
     p.textContent = "modifier";
@@ -133,7 +139,7 @@ const categoriesList = async () => {
 
 categoriesList();
 
-// Ajout des travaux "Mes Projets" (gallery)
+//****************************************************** Ajout des travaux "Mes Projets" (gallery)
 const worksList = async () => {
   await requestWorks();
 
@@ -258,7 +264,7 @@ const requestAddWorks = async () => {
     method: "POST",
     body: formData,
     headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("token"), //Permet de s'assurer que l'utilisateur connecté peut supprimer un projet
+      Authorization: "Bearer " + sessionStorage.getItem("token"), //Permet de s'assurer que l'utilisateur connecté pour ajouter
     },
   })
     .then((response) => {
@@ -312,11 +318,11 @@ validateButton.addEventListener("click", (event) => {
   const categoryText = category.options[category.selectedIndex].text;
 
   if (file != null && titleText.length > 0 && categoryText.length > 0) {
-    requestAddWorks();
+    requestAddWorks(); //si photo,titre,categorie ok, alors : requette ajout photo
   }
 });
 
-//Evenement de type change = changement valeur
+//Evenement de type change = changement valeur (titres)
 title.addEventListener("change", (event) => {
   const titleText = title.value;
   const categoryText = category.options[category.selectedIndex].text;
@@ -329,7 +335,7 @@ title.addEventListener("change", (event) => {
   }
 });
 
-//Evenement de type change = changement valeur
+//Evenement de type change = changement valeur (categories)
 category.addEventListener("change", (event) => {
   const titleText = title.value;
   const categoryText = category.options[category.selectedIndex].text;
