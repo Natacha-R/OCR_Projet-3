@@ -1,6 +1,7 @@
 let categories = [];
 let works = [];
 console.log(sessionStorage.getItem("token")); // verification token lors de la connexion
+const formulaire = document.getElementById("formAddPhoto");
 
 // Récupération des données categories avec Fetch
 const request = async () => {
@@ -104,14 +105,26 @@ const categoriesList = async () => {
     });
 
     closeAdditionButton.addEventListener("click", (event) => {
+      formulaire.reset();
       modalAddition.style.display = "none"; // fermer la modale lors du clic sur span close (ajout photo)
+      imgSpan.style.display = "block";
+      fileLabel.style.display = "block";
+      imgP.style.display = "block";
+      img.style.display = "none";
+      img.src = "";
     });
 
     window.onclick = function (event) {
       if (event.target == modal) {
         modal.style.display = "none"; // fermer la modale lors d'un clic en dehors de celle-ci
       } else if (event.target == modalAddition) {
+        formulaire.reset();
         modalAddition.style.display = "none"; // fermer la modale lors d'un clic en dehors de celle-ci
+        imgSpan.style.display = "block";
+        fileLabel.style.display = "block";
+        imgP.style.display = "block";
+        img.style.display = "none";
+        img.src = "";
       }
     };
 
@@ -121,9 +134,17 @@ const categoriesList = async () => {
       modalAddition.style.display = "flex";
     });
 
+    //flèche retour
     backArrow.addEventListener("click", (event) => {
       modal.style.display = "flex";
       modalAddition.style.display = "none";
+      formulaire.reset();
+      validateButton.style.backgroundColor = "#a7a7a7";
+      imgSpan.style.display = "block";
+      fileLabel.style.display = "block";
+      imgP.style.display = "block";
+      img.style.display = "none";
+      img.src = "";
     });
 
     // changement login en logout
@@ -222,7 +243,7 @@ function filterWorks(works) {
   }
 }
 
-//** Ajout projet
+//************************************************************************************ Ajout projet
 //Création "Catégorie"
 const addSelect = async () => {
   await request();
@@ -257,7 +278,6 @@ const validateButton = document.getElementById("validateButton");
 
 const requestAddWorks = async () => {
   //Créer le body de la requête à partir du formulaire html (name formulaire = nom paramètre API)
-  const formulaire = document.getElementById("formAddPhoto");
   const formData = new FormData(formulaire);
 
   await fetch("http://localhost:5678/api/works/", {
@@ -275,7 +295,6 @@ const requestAddWorks = async () => {
 
       formulaire.reset();
       validateButton.style.backgroundColor = "#a7a7a7";
-      fileInput.style.display = "none";
       imgSpan.style.display = "block";
       fileLabel.style.display = "block";
       imgP.style.display = "block";
@@ -304,7 +323,6 @@ fileInput.addEventListener("change", (event) => {
 
 //Une fois que la lecture de l'image est faite on l'affiche (Affiche le contenu de l'élément)
 reader.onload = (event) => {
-  fileInput.style.display = "none"; //(cache le reste)
   imgSpan.style.display = "none";
   fileLabel.style.display = "none";
   imgP.style.display = "none";
@@ -319,6 +337,8 @@ validateButton.addEventListener("click", (event) => {
 
   if (file != null && titleText.length > 0 && categoryText.length > 0) {
     requestAddWorks(); //si photo,titre,categorie ok, alors : requette ajout photo
+  } else {
+    alert("Veuillez remplir tous les champs");
   }
 });
 
