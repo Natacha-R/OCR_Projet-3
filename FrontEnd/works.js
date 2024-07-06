@@ -2,6 +2,7 @@ let categories = [];
 let works = [];
 console.log(sessionStorage.getItem("token")); // verification token lors de la connexion
 const formulaire = document.getElementById("formAddPhoto");
+let file = null;
 
 // Récupération des données categories avec Fetch
 const request = async () => {
@@ -112,6 +113,7 @@ const categoriesList = async () => {
       imgP.style.display = "block";
       img.style.display = "none";
       img.src = "";
+      file = null;
     });
 
     window.onclick = function (event) {
@@ -125,6 +127,7 @@ const categoriesList = async () => {
         imgP.style.display = "block";
         img.style.display = "none";
         img.src = "";
+        file = null;
       }
     };
 
@@ -145,6 +148,7 @@ const categoriesList = async () => {
       imgP.style.display = "block";
       img.style.display = "none";
       img.src = "";
+      file = null;
     });
 
     // changement login en logout
@@ -219,6 +223,10 @@ const worksList = async () => {
   if (height > 445) {
     grid.style.overflow = "auto"; //Si hauteur images > 445 alors on scroll
   }
+  //*redirection du bouton contact de la page login vers la page index (if intégré aprés les projets pour que le chargement des images puissent se faire)
+  if (window.location.href.endsWith("index.html#contacttitle")) {
+    window.location.href = "index.html#contacttitle";
+  }
 };
 worksList();
 
@@ -271,7 +279,6 @@ const img = document.getElementById("preview"); // élément html qui affiche le
 const imgSpan = document.getElementById("imgSpan");
 const fileLabel = document.getElementById("fileLabel");
 const imgP = document.getElementById("imgP");
-let file;
 const title = document.getElementById("title");
 const category = document.getElementById("category");
 const validateButton = document.getElementById("validateButton");
