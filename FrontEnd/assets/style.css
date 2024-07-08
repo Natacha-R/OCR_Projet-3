@@ -596,10 +596,10 @@ nav .log {
   -webkit-appearance: none;
   appearance: none;
   -moz-appearance: none;
-  background-image: url("https://www.svgrepo.com/show/80156/down-arrow.svg");
-  background-repeat: no-repeat;
+  background-image: url("https://www.svgrepo.com/show/80156/down-arrow.svg"); /*URL flèche catégorie*/
+  background-repeat: no-repeat; /*nombre de flèche*/
   background-size: 11px 11px;
-  background-position: calc(100% - 16px);
+  background-position: calc(100% - 16px); /*emplacement flèche catégorie*/
 }
 
 #validateButton {
