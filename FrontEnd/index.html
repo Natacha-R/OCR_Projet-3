@@ -89,7 +89,7 @@
           <span class="close fa-solid fa-xmark"></span>
           <h2>Galerie photo</h2>
           <div id="grid"></div>
-          <div id="divider"></div>
+          <div class="divider"></div>
           <input id="addButton" type="submit" value="Ajouter une photo" />
         </div>
       </div>
@@ -107,17 +107,17 @@
               <input id="image" name="image" type="file" accept="image/*" />
               <label id="fileLabel" for="image">+ Ajouter photo</label>
               <p id="imgP" class="jpg">jpg, png : 4mo max</p>
-              <img id="preview" src="" />
+              <img id="preview" src="#" alt="prévisualisation de l'image" />
             </div>
             <div class="photoTitle">
               <label for="name">Titre</label><br />
-              <input type="text" id="title" name="title" required />
+              <input type="text" id="title" name="title" />
             </div>
             <div class="photoCategory">
               <label for="name">Catégorie</label><br />
-              <select id="category" name="category" required></select>
+              <select id="category" name="category"></select>
             </div>
-            <div id="divider"></div>
+            <div class="divider"></div>
             <input id="validateButton" type="submit" value="Valider" />
           </form>
         </div>
