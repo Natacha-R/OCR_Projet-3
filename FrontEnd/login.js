@@ -69,7 +69,7 @@ BtnCo.addEventListener("click", (event) => {
   } else {
     //* sinon, création du contenu de la requette et appel de la fonction 'request' :
     const body = { email: mail, password: password }; //(création de l'objet avec les saisies utilisateur)
-    const bodyString = JSON.stringify(body); // (Convertir en une chaine de caractères/objet au format JSON)
-    request(bodyString); //(appel de la fonction request avec le corp de la requete)
+    const bodyString = JSON.stringify(body); // (Convertir en une chaine de caractères, format JSON)
+    request(bodyString); //(appel de la fonction request pour tenter la connexion)
   }
 });

@@ -4,6 +4,17 @@ let works = []; // (pour stocker les projets)
 const formulaire = document.getElementById("formAddPhoto");
 let file = null; // (variable fichier = aucun fichier selectionne)
 
+//**************************************** Recuperation des projets avec Fetch :
+
+const requestWorks = async () => {
+  await fetch("http://localhost:5678/api/works")
+    .then((response) => response.json())
+    .then((data) => {
+      works = data;
+    })
+    .catch((err) => alert(err));
+};
+
 //**************************************** Recuperation des donnees categories avec Fetch :
 
 //* declaration de la fonction asynchrone 'request' :
@@ -13,17 +24,6 @@ const request = async () => {
     .then((data) => {
       // (traite les donnees converties en JSON)
       categories = data; // (les donnees sont stockees dans la variable categories)
-    })
-    .catch((err) => alert(err));
-};
-
-//**************************************** Recuperation des donnees works avec Fetch :
-
-const requestWorks = async () => {
-  await fetch("http://localhost:5678/api/works")
-    .then((response) => response.json())
-    .then((data) => {
-      works = data;
     })
     .catch((err) => alert(err));
 };
@@ -55,9 +55,9 @@ const categoriesList = async () => {
     // (Si pas d'utilisateurs connectés (token absent) alors appliquer le code suivant (affichage barre de filtres))
     //* affichage de la barre de filtres :
     await request(); // (appel de la fonction asynchrone request pour recuperer les categories)
+    categories.unshift({ id: 0, name: "Tous" }); // (création du filtre "Tous" au debut de la liste des categories)
 
     const filtres = document.querySelector(".navbar"); // (selection de la barre de filtres dans le DOM)
-    categories.unshift({ id: 0, name: "Tous" }); // (création du filtre "Tous" au debut de la liste des categories)
 
     //* Creation et ajout des elements de filtre :
     for (const category of categories) {
@@ -227,6 +227,7 @@ const worksList = async () => {
   }
 
   //* Calcul de la hauteur de la grille et ajout de la gestion du defilement :
+
   /* (Pour avoir le nombre de lignes requises : nombre de projets (works) / 5 (nombre projet par ligne)
   On multiplie par 130 car la hauteur de nos images est de 130
   On rajoute 55 car c'est l'espacement requis par la maquette
@@ -271,7 +272,7 @@ function filterWorks(works) {
   }
 }
 
-/**************************************************************** lsite deroulante categories 'ajout photo' ******************************************************************/
+/**************************************************************** liste deroulante categories 'ajout photo' ******************************************************************/
 
 // (fonction asynchrone 'addSelect')
 const addSelect = async () => {
