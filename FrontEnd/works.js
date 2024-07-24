@@ -119,6 +119,7 @@ const categoriesList = async () => {
     //* fermer la modale lors du clic sur span close ('galerie photo') :
     span.addEventListener("click", (event) => {
       modal.style.display = "none";
+      formulaire.reset();
     });
 
     //* fermer la modale lors du clic sur close ('ajout photo') :
@@ -308,11 +309,11 @@ const title = document.getElementById("title");
 const category = document.getElementById("category");
 const validateButton = document.getElementById("validateButton");
 
-//* Declaration de la fonction asynchrone 'requestAddWorks :
+//* Declaration de la fonction asynchrone 'requestAddWorks' pour les ajouts de travaux dans backend :
 const requestAddWorks = async () => {
   const formData = new FormData(formulaire); // (Créer le body de la requête à partir du formulaire html (name formulaire = nom paramètre API))
 
-  //* Envoi de la requete POST avec fetch :
+  //* Envoi de la requete POST avec fetch pour ajout de projet :
   await fetch("http://localhost:5678/api/works/", {
     // (envoi une requete post à l'url http)
     method: "POST",
@@ -323,9 +324,9 @@ const requestAddWorks = async () => {
   })
     //* traitement de la reponse :
     .then((response) => {
-      // (Si succès on rafraichit la liste des projets dans la modale et sur l'accueil grace a la fonction 'workList')
+      // (Si succès on rafraichit la liste des projets dans la modale et sur l'accueil grace à la fonction 'workList')
       worksList();
-      var modalAddition = document.getElementById("modalAddition");
+      let modalAddition = document.getElementById("modalAddition");
       modalAddition.style.display = "none"; // (cacher la modale 'ajout photo')
 
       // (reinitialiser le formulaire et ses elements associes a leur etat initial)
@@ -336,6 +337,7 @@ const requestAddWorks = async () => {
       imgP.style.display = "block";
       img.style.display = "none";
       img.src = "";
+      file = null;
     })
     .then((data) => data) // (traitement des donnees retournees)
     .catch((err) => alert(err)); // alerte en cas d'erreur pendant la requete)
