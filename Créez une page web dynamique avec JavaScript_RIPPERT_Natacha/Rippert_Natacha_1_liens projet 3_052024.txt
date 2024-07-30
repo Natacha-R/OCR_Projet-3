@@ -1,4 +1,0 @@
-
-Lien du projet sur GitHub : https://github.com/Natacha-R/OCR_Projet-3.git
-
-Lien du site  :  file:///Users/natacharippert/Desktop/OCR_Projet-3/FrontEnd/index.html
