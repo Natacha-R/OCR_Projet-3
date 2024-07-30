@@ -346,9 +346,26 @@ const requestAddWorks = async () => {
 //* écouteur d'événement 'change' sur fileInput (lorsque l'utilisateur selectionne un fichier, cette fonction sera executee)) :
 fileInput.addEventListener("change", (event) => {
   const titleText = title.value;
-  const categoryText = category.options[category.selectedIndex].text; // (recupere le texte de l'option selecitonnee dans la lsite deroulante 'category')
+  const categoryText = category.options[category.selectedIndex].text; // (recupere le texte de l'option selecitonnee dans la liste deroulante 'category')
 
   file = event.target.files[0]; // (On récupère le premier fichier sélectionné)
+  const maxSize = 4 * 1024 * 1024;
+
+  if (file.size > maxSize) {
+    alert("Le fichier sélectionné dépasse la taille maximale autorisée");
+    fileInput.value = "";
+    file = null;
+    return;
+  } else if (
+    file.name.split(".").pop() !== "png" &&
+    file.name.split(".").pop() !== "jpg"
+  ) {
+    alert("Le fichier sélectionné n'est pas dans une extension autorisée");
+    fileInput.value = "";
+    file = null;
+    return;
+  }
+
   reader.readAsDataURL(file); // (demande à 'fileReader' de lire le fichier et de le convertir en url de donnees, pour permettre de previsualiser l'image)
 
   // (Si les champs de formulaire sont valides alors on change la couleur du bouton valider)
